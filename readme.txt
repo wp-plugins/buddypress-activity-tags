@@ -13,6 +13,10 @@ BuddyPress Activity tab is used to output a list of sitewide, member or member's
 BuddyPress Activity Tags doesn't work with single WordPress installation or Multisite installation without BuddyPress. It must be activated for all sites using "network activate" in the Administration Panel.
 The widget configuration and tags style is based on [Simple Tags plugin](http://wordpress.org/extend/plugins/simple-tags/) by [momo360modena](http://profiles.wordpress.org/users/momo360modena/).
 
+**Translations**
+
+The plugin comes with Spanish and English translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the bp-activity-tags.pot file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/).
+
 **Features**
 
 * Click tags.
@@ -42,9 +46,3 @@ If you have any further questions, please submit them.
 
 1. Widget configuration.
 2. Widget.
-
-== Translations ==
-
-The plugin comes with Spanish and English translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the bp-activity-tags.pot file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/).
-
-== Changelog ==
