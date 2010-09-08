@@ -238,10 +238,10 @@ if( !class_exists( 'Bp_Activity_Tags_Widget' ) ) {
 				
 				/* Get global count for each tag. */
 				foreach( $terms as $t ) {
-					if( empty( $tags[$t->name] ) ) {
-						$tags[$t->name] = 1;
+					if( empty( $tags[strtolower( $t->name )] ) ) {
+						$tags[strtolower( $t->name )]= 1;
 					} else {
-						$tags[$t->name] = $tags[$t->name] + 1;
+						$tags[strtolower( $t->name )] = $tags[strtolower( $t->name )] + 1;
 					}
 				}
 			}
