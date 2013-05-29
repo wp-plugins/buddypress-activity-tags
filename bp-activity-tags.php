@@ -3,9 +3,9 @@
  * Plugin Name: BuddyPress Activity Tags
  * Plugin URI: http://grial.usal.es/agora/pfcgrial/bp-activity-tags
  * Description: Adds a widget that displays a tag cloud with tags from new blog posts in BuddyPress Activity tab.
- * Version: 1.0
+ * Version: 1.1
  * Requires at least: BuddyPress 1.2.5
- * Tested up to: BuddyPress 1.2.5.2 + WordPress 3.0.1
+ * Tested up to: BuddyPress 1.2.9 + WordPress 3.5.1
  * Author: Alicia García Holgado
  * Author URI: http://grial.usal.es/agora/mambanegra
  * License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -28,11 +28,18 @@ Network: true
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+if ( !defined( 'DIRECTORY_SEPARATOR' ) ) {
+	if ( strpos( php_uname( 's' ), 'Win' ) !== false )
+		define( 'DIRECTORY_SEPARATOR', '\\' );
+	else
+		define( 'DIRECTORY_SEPARATOR', '/' );
+}
+
 /**
  * Make sure BuddyPress is loaded before we do anything.
  */
-require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-if ( is_plugin_active( 'buddypress/bp-loader.php' ) ) {
+require_once( ABSPATH.DIRECTORY_SEPARATOR.'wp-admin'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'plugin.php' );
+if ( is_plugin_active( 'buddypress'.DIRECTORY_SEPARATOR.'bp-loader.php' ) ) {
 	add_action( 'widgets_init', 'bp_activity_tags_register' );
 } else {
 	add_action( 'admin_notices', 'bp_activity_tags_install_buddypress_notice' );
@@ -47,19 +54,23 @@ if ( !defined( 'MULTISITE' ) || MULTISITE == false) {
 	return;
 }
 
-function bp_activity_tags_install_buddypress_notice() {
-	echo '<div id="message" class="error fade"><p>';
-	_e( '<strong>BuddyPress Activity Tags</strong></a> requires the BuddyPress plugin to work. Please <a href="http://buddypress.org/download">install BuddyPress</a> first, or <a href="plugins.php">deactivate BuddyPress Activity Tags</a>.' );
-	echo '</p></div>';
+if( !function_exists( 'bp_activity_tags_install_buddypress_notice' ) ) {
+	function bp_activity_tags_install_buddypress_notice() {
+		echo '<div id="message" class="error fade"><p>';
+		_e( '<strong>BuddyPress Activity Tags</strong></a> requires the BuddyPress plugin to work. Please <a href="http://buddypress.org/download">install BuddyPress</a> first, or <a href="plugins.php">deactivate BuddyPress Activity Tags</a>.' );
+		echo '</p></div>';
+	}
 }
 
-function bp_activity_tags_install_multisite_notice() {
-	echo '<div id="message" class="error fade"><p>';
-	_e( '<strong>BuddyPress Activity Tags</strong></a> requires multisite installation. Please <a href="http://codex.wordpress.org/Create_A_Network">create a network</a> first, or <a href="plugins.php">deactivate BuddyPress Activity Tags</a>.' );
-	echo '</p></div>';
+if( !function_exists( 'bp_activity_tags_install_multisite_notice' ) ) {
+	function bp_activity_tags_install_multisite_notice() {
+		echo '<div id="message" class="error fade"><p>';
+		_e( '<strong>BuddyPress Activity Tags</strong></a> requires multisite installation. Please <a href="http://codex.wordpress.org/Create_A_Network">create a network</a> first, or <a href="plugins.php">deactivate BuddyPress Activity Tags</a>.' );
+		echo '</p></div>';
+	}
 }
 
-load_plugin_textdomain( 'bp-activity-tags', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+load_plugin_textdomain( 'bp-activity-tags', false, dirname( plugin_basename( __FILE__ ) ) . DIRECTORY_SEPARATOR. 'languages' );
 
 /**
  * Widget definition.
@@ -224,17 +235,10 @@ if( !class_exists( 'Bp_Activity_Tags_Widget' ) ) {
 			$activity = $wpdb->get_results( $wpdb->prepare( "SELECT item_id, secondary_item_id FROM {$bp->activity->table_name} WHERE component='blogs' AND type='new_blog_post'" ) );
 			
 			foreach( $activity as $a ) {
-				if( $a->item_id == BLOG_ID_CURRENT_SITE ) {
-					$terms = $wpdb->get_results($wpdb->prepare( "SELECT terms.term_id, name FROM {$wpdb->base_prefix}term_relationships ".
-					"LEFT JOIN ({$wpdb->base_prefix}terms as terms, {$wpdb->base_prefix}term_taxonomy as tax) ".
-					"ON (terms.term_id=tax.term_id and {$wpdb->base_prefix}term_relationships.term_taxonomy_id=tax.term_taxonomy_id) ".
-					"WHERE tax.taxonomy='post_tag' and object_id={$a->secondary_item_id}" ) );
-				} else {
-					$terms = $wpdb->get_results($wpdb->prepare( "SELECT terms.term_id, name FROM {$wpdb->base_prefix}{$a->item_id}_term_relationships ".
-					"LEFT JOIN ({$wpdb->base_prefix}{$a->item_id}_terms as terms, {$wpdb->base_prefix}{$a->item_id}_term_taxonomy as tax) ".
-					"ON (terms.term_id=tax.term_id and {$wpdb->base_prefix}{$a->item_id}_term_relationships.term_taxonomy_id=tax.term_taxonomy_id) ".
-					"WHERE tax.taxonomy='post_tag' and object_id={$a->secondary_item_id}" ) );
-				}
+				$terms = $wpdb->get_results($wpdb->prepare( "SELECT terms.term_id, name FROM {$wpdb->get_blog_prefix( $a->item_id )}term_relationships ".
+				"LEFT JOIN ({$wpdb->get_blog_prefix( $a->item_id )}terms as terms, {$wpdb->get_blog_prefix( $a->item_id )}term_taxonomy as tax) ".
+				"ON (terms.term_id=tax.term_id and {$wpdb->get_blog_prefix( $a->item_id )}term_relationships.term_taxonomy_id=tax.term_taxonomy_id) ".
+				"WHERE tax.taxonomy='post_tag' and object_id={$a->secondary_item_id}" ) );
 				
 				/* Get global count for each tag. */
 				foreach( $terms as $t ) {
@@ -356,19 +360,23 @@ if( !class_exists( 'Bp_Activity_Tags_Widget' ) ) {
 /**
  * Register the Widget.
  */
-function bp_activity_tags_register() {
-	register_widget( 'Bp_Activity_Tags_Widget' );
+if( !function_exists( 'bp_activity_tags_register' ) ) {
+	function bp_activity_tags_register() {
+		register_widget( 'Bp_Activity_Tags_Widget' );
+	}
 }
 
 /**
  * Add style file if it exists.
  */
-function bp_activity_tags_style() {
-	$styleurl = WP_PLUGIN_URL."/".basename( dirname( __FILE__ ) )."/style.css";
-	$styledir = WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) )."/style.css";
-	
-	if( file_exists( $styledir ) )
-		wp_enqueue_style( 'bp_activity_tags_css_style', $styleurl );
+if( !function_exists( 'bp_activity_tags_style' ) ) {
+	function bp_activity_tags_style() {
+		$styleurl = WP_PLUGIN_URL."/".basename( dirname( __FILE__ ) ).DIRECTORY_SEPARATOR."style.css";
+		$styledir = WP_PLUGIN_DIR."/".basename( dirname( __FILE__ ) ).DIRECTORY_SEPARATOR."style.css";
+		
+		if( file_exists( $styledir ) )
+			wp_enqueue_style( 'bp_activity_tags_css_style', $styleurl );
+	}
 }
 add_action( 'wp_print_styles', 'bp_activity_tags_style' );
 
@@ -376,116 +384,117 @@ add_action( 'wp_print_styles', 'bp_activity_tags_style' );
  * Init search variables.
  */
 add_filter( 'query_vars', 'bp_activity_tags_queryvars' );
-function bp_activity_tags_queryvars( $qvars ) {
-  $qvars[] = 'bptags';
-  return $qvars;
+if( !function_exists( 'bp_activity_tags_queryvars' ) ) {
+	function bp_activity_tags_queryvars( $qvars ) {
+	  $qvars[] = 'bptags';
+	  return $qvars;
+	}
 }
 
 /**
  * Shortcodes definition.
  */
-function my_activity_user_link($activity) {
-	if ( empty( $activity->user_id ) )
-		$link = $activity->primary_link;
-	else
-		$link = bp_core_get_user_domain( $activity->user_id );
-
-	return apply_filters( 'bp_get_activity_user_link', $link );
-}
-
-function my_activity_avatar( $activity, $args = '' ) {
-	$defaults = array(
-		'type' => 'thumb',
-		'width' => 20,
-		'height' => 20,
-		'class' => 'avatar',
-		'alt' => __( 'Avatar', 'buddypress' ),
-		'email' => false
-	);
-
-	$r = wp_parse_args( $args, $defaults );
-	extract( $r, EXTR_SKIP );
-
-	$item_id = false;
-	if ( (int)$activity->user_id )
-		$item_id = $activity->user_id;
-	else if ( $activity->item_id )
-		$item_id = $activity->item_id;
-
-	$object = apply_filters( 'bp_get_activity_avatar_object_blogs', 'user' );
-
-	/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
-	if ( empty($email) )
-		$email = bp_core_get_user_email($activity->user_id);
-
-	return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
-}
-
-function bp_activity_tags_page( $atts ) {
-	global $wpdb, $bp;
+if( !function_exists( 'my_activity_user_link' ) ) {
+	function my_activity_user_link($activity) {
+		if ( empty( $activity->user_id ) || !function_exists( 'bp_core_get_user_domain' ) )
+			$link = $activity->primary_link;
+		else
+			$link = bp_core_get_user_domain( $activity->user_id );
 	
-	$tag = apply_filters( 'get_search_query', get_query_var( 'bptags' ) );
+		return apply_filters( 'bp_get_activity_user_link', $link );
+	}
+}
 
-	if( !empty( $tag ) ) {
+if( !function_exists( 'my_activity_avatar' ) ) {
+	function my_activity_avatar( $activity, $args = '' ) {
+		$defaults = array(
+			'type' => 'thumb',
+			'width' => 20,
+			'height' => 20,
+			'class' => 'avatar',
+			'alt' => __( 'Avatar', 'buddypress' ),
+			'email' => false
+		);
+	
+		$r = wp_parse_args( $args, $defaults );
+		extract( $r, EXTR_SKIP );
+	
+		$item_id = false;
+		if ( (int)$activity->user_id )
+			$item_id = $activity->user_id;
+		else if ( $activity->item_id )
+			$item_id = $activity->item_id;
+	
+		$object = apply_filters( 'bp_get_activity_avatar_object_blogs', 'user' );
+	
+		/* If this is a user object pass the users' email address for Gravatar so we don't have to refetch it. */
+		if ( empty($email) && function_exists( 'bp_core_get_user_email' ) )
+			$email = bp_core_get_user_email($activity->user_id);
+	
+		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array( 'item_id' => $item_id, 'object' => $object, 'type' => $type, 'alt' => $alt, 'class' => $class, 'width' => $width, 'height' => $height, 'email' => $email ) ) );
+	}
+}
+
+if( !function_exists( 'bp_activity_tags_page' ) ) {
+	function bp_activity_tags_page( $atts ) {
+		global $wpdb, $bp;
 		
-		$search = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component='blogs' AND type='new_blog_post'" ) );
-
-		if( empty( $search ) ) { ?>
-			<div id="message" class="bp-activity-tags_info info">
-				<p><?php echo __( "There aren't new activity with tag", 'bp-activity-tags' ).' '.$tag; ?></p>
-			</div>
-		<?php 
-		} else { ?>
-        	<h3 class="bp-activity-tags_header"><?php echo __( 'Recent activity posts with tag', 'bp-activity-tags' ) ?> <span class='bp-activity-tags_term'><?php echo $tag; ?></span></h3>
-        
-            <ul id="activity-stream" class="bp-activity-tags_ul activity-list item-list">
-            
-            <?php foreach( $search as $activity ) {
-            	if ($activity->item_id == BLOG_ID_CURRENT_SITE ) {
-            		$check = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}terms as terms ".
-            			"LEFT JOIN ({$wpdb->base_prefix}term_relationships as rel, {$wpdb->base_prefix}term_taxonomy as tax) ".
-            				"ON (rel.term_taxonomy_id=tax.term_taxonomy_id and tax.taxonomy='post_tag' and terms.term_id=tax.term_id) ".
-            			"WHERE rel.object_id={$activity->secondary_item_id} AND terms.name='{$tag}'" ) );
-            	} else {
-            		$check = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->base_prefix}{$activity->item_id}_terms as terms ".
-            			"LEFT JOIN ({$wpdb->base_prefix}{$activity->item_id}_term_relationships as rel, {$wpdb->base_prefix}{$activity->item_id}_term_taxonomy as tax) ".
-            				"ON (rel.term_taxonomy_id=tax.term_taxonomy_id and tax.taxonomy='post_tag' and terms.term_id=tax.term_id) ".
-            			"WHERE rel.object_id={$activity->secondary_item_id} AND terms.name='{$tag}'" ) );
-            	}
-            	
-            	if( !empty( $check->term_id )) { ?>
-                
-	                <li class="bp-activity-tags_li blogs new_blog_post" id="activity-<?php echo $activity->id ?>">
-						<div class="bp-activity-tags_avatar activity-avatar">
-							<a href="<?php echo my_activity_user_link( $activity ) ?>">
-								<?php echo my_activity_avatar( $activity, 'type=full&width=100&height=100' ) ?>
-							</a>
-						</div>
-				
-						<div class="bp_activity-tags_content activity-content">
-							<div class="bp_activity-tags_action activity-header">
-								<?php echo $activity->action ?>
-							</div>
-				
-							<?php if ( !empty( $activity->content ) ) : ?>
-								<div class="bp_activity-tags_inner activity-inner">
-									<?php echo $activity->content ?>
-								</div>
-							<?php endif; ?>
-						</div>
-					</li>
-				
-			<?php } 
-            } ?>
+		$tag = apply_filters( 'get_search_query', get_query_var( 'bptags' ) );
+	
+		if( !empty( $tag ) ) {
 			
-			</ul>
-    <?php }
-    } else { ?>
-	    <div id="message" class="bp-activity-tags_info info">
-			<p><?php _e( "Sorry, but you are looking for something that isn't here.", 'bp-activity-tags' ) ?></p>
-		</div>
-    <?php
-    }
+			$search = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->activity->table_name} WHERE component='blogs' AND type='new_blog_post'" ) );
+	
+			if( empty( $search ) ) { ?>
+				<div id="message" class="bp-activity-tags_info info">
+					<p><?php echo __( "There aren't new activity with tag", 'bp-activity-tags' ).' '.$tag; ?></p>
+				</div>
+			<?php 
+			} else { ?>
+	        	<h3 class="bp-activity-tags_header"><?php echo __( 'Recent activity posts with tag', 'bp-activity-tags' ) ?> <span class='bp-activity-tags_term'><?php echo $tag; ?></span></h3>
+	        
+	            <ul id="activity-stream" class="bp-activity-tags_ul activity-list item-list">
+	            
+	            <?php foreach( $search as $activity ) {
+	            	$check = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->get_blog_prefix( $activity->item_id )}terms as terms ".
+	            		"LEFT JOIN ({$wpdb->get_blog_prefix( $activity->item_id )}term_relationships as rel, {$wpdb->get_blog_prefix( $activity->item_id )}term_taxonomy as tax) ".
+	            			"ON (rel.term_taxonomy_id=tax.term_taxonomy_id and tax.taxonomy='post_tag' and terms.term_id=tax.term_id) ".
+	            		"WHERE rel.object_id={$activity->secondary_item_id} AND terms.name='{$tag}'" ) );
+	            	
+	            	if( !empty( $check->term_id )) { ?>
+	                
+		                <li class="bp-activity-tags_li blogs new_blog_post" id="activity-<?php echo $activity->id; ?>">
+							<div class="bp-activity-tags_avatar activity-avatar">
+								<a href="<?php echo my_activity_user_link( $activity ); ?>">
+									<?php echo my_activity_avatar( $activity, 'type=full&width=100&height=100' ); ?>
+								</a>
+							</div>
+					
+							<div class="bp_activity-tags_content activity-content">
+								<div class="bp_activity-tags_action activity-header">
+									<?php echo $activity->action; ?>
+								</div>
+					
+								<?php if ( !empty( $activity->content ) ) : ?>
+									<div class="bp_activity-tags_inner activity-inner">
+										<?php echo $activity->content; ?>
+									</div>
+								<?php endif; ?>
+							</div>
+						</li>
+					
+				<?php } 
+	            } ?>
+				
+				</ul>
+	    <?php }
+	    } else { ?>
+		    <div id="message" class="bp-activity-tags_info info">
+				<p><?php _e( "Sorry, but you are looking for something that isn't here.", 'bp-activity-tags' ) ?></p>
+			</div>
+	    <?php
+	    }
+	}
 }
 add_shortcode( 'bp_activity_tags', 'bp_activity_tags_page' );
 
