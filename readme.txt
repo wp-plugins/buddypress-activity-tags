@@ -6,7 +6,7 @@ Tested up to: 3.5.1
 Stable tag: 1.1
 
 Adds a widget that displays a tag cloud with tags from new blog posts in BuddyPress Activity tab.
-Tested up to BuddyPress 1.2.9
+Tested up to BuddyPress 1.9.2
 
 == Description ==
 
@@ -27,7 +27,7 @@ The plugin comes with Spanish and English translations, please refer to the [Wor
 * Select how to display tags.
 * The size and color of each tag is determined by how many times that particular tag has been assigned to posts.
 
-[See the plugin page for more information](http://grial.usal.es/agora/pfcgrial/bp-activity-tags/).
+[See the plugin page for more information](http://agora.grial.eu/pfcgrial/bp-activity-tags/).
 
 == Installation ==
 
