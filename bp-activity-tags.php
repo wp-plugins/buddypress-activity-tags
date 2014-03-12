@@ -5,9 +5,9 @@
  * Description: Adds a widget that displays a tag cloud with tags from new blog posts in BuddyPress Activity tab.
  * Version: 1.1
  * Requires at least: BuddyPress 1.2.5
- * Tested up to: BuddyPress 1.2.9 + WordPress 3.5.1
+ * Tested up to: BuddyPress 1.9.2 + WordPress 3.8.1
  * Author: Alicia García Holgado
- * Author URI: http://grial.usal.es/agora/mambanegra
+ * Author URI: http://agora.grial.eu/mambanegra
  * License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Network: true
 */
