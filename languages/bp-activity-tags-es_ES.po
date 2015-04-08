@@ -1,0 +1,171 @@
+# Translation of the WordPress plugin BuddyPress Activity Tags 1.0 by Alicia García Holgado.
+# Copyright (C) 2010 Alicia García Holgado
+# This file is distributed under the same license as the BuddyPress Activity Tags package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Activity Tags 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-activity-tags\n"
+"POT-Creation-Date: 2010-09-06 21:46+0200\n"
+"PO-Revision-Date: 2013-05-29 11:47+0100\n"
+"Last-Translator: Alicia García Holgado <alicia.alicia1986gh@gmail.com>\n"
+"Language-Team: Alicia García Holgado <aliciagh@usal.es>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"Language: es_ES\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: bp-activity-tags.php:52
+msgid ""
+"<strong>BuddyPress Activity Tags</strong></a> requires the BuddyPress plugin "
+"to work. Please <a href=\"http://buddypress.org/download\">install "
+"BuddyPress</a> first, or <a href=\"plugins.php\">deactivate BuddyPress "
+"Activity Tags</a>."
+msgstr ""
+"<strong>BuddyPress Activity Tags</strong></a> requiere para funcionar el "
+"plugin BuddyPress. Por favor <a href=\"http://buddypress.org/download"
+"\">instala BuddyPress</a> primero, o <a href=\"plugins.php\">desactiva "
+"BuddyPress Activity Tags</a>."
+
+#: bp-activity-tags.php:58
+msgid ""
+"<strong>BuddyPress Activity Tags</strong></a> requires multisite "
+"installation. Please <a href=\"http://codex.wordpress.org/Create_A_Network"
+"\">create a network</a> first, or <a href=\"plugins.php\">deactivate "
+"BuddyPress Activity Tags</a>."
+msgstr ""
+"<strong>BuddyPress Activity Tags</strong></a> requiere una instalación "
+"multisite. Por favor <a href=\"http://codex.wordpress.org/Create_A_Network"
+"\">crea una red</a> primero, o <a href=\"plugins.php\">desactiva BuddyPress "
+"Activity Tags</a>."
+
+#: bp-activity-tags.php:80 bp-activity-tags.php:89
+msgid "BP Activity Tags"
+msgstr "BP Activity Tags"
+
+#: bp-activity-tags.php:90
+msgid "activity-tags"
+msgstr "activity-tags"
+
+#: bp-activity-tags.php:103
+msgid "Title"
+msgstr "Título"
+
+#: bp-activity-tags.php:108
+msgid "Page"
+msgstr "Página"
+
+#: bp-activity-tags.php:113
+msgid "Max tags to display: (default: 45)"
+msgstr "Número de tags: (por defecto 45)"
+
+#: bp-activity-tags.php:118
+msgid "Order by for display tags:"
+msgstr "Ordenar los tags por:"
+
+#: bp-activity-tags.php:120
+msgid "Name"
+msgstr "Nombre"
+
+#: bp-activity-tags.php:121
+msgid "Counter"
+msgstr "Número de ocurrencias"
+
+#: bp-activity-tags.php:122
+msgid "Random (default)"
+msgstr "Aleatorio (por defecto)"
+
+#: bp-activity-tags.php:127
+msgid "Order for display tags:"
+msgstr "Orden de los tags:"
+
+#: bp-activity-tags.php:129
+msgid "ASC"
+msgstr "Ascendente"
+
+#: bp-activity-tags.php:130
+msgid "DESC (default)"
+msgstr "Descendente (por defecto)"
+
+#: bp-activity-tags.php:135
+msgid "Font size mini: (default: 8)"
+msgstr "Tamaño de fuente min: (por defecto 8)"
+
+#: bp-activity-tags.php:140
+msgid "Font size max: (default: 22)"
+msgstr "Tamaño de fuente max: (por defecto 22)"
+
+#: bp-activity-tags.php:145
+msgid "Unit font size:"
+msgstr "Unidad usada para el tamaño de la fuente:"
+
+#: bp-activity-tags.php:147
+msgid "Point (default)"
+msgstr "Punto (por defecto)"
+
+#: bp-activity-tags.php:148
+msgid "Pixel"
+msgstr "Pixel"
+
+#: bp-activity-tags.php:149
+msgid "Em"
+msgstr "Em"
+
+#: bp-activity-tags.php:150
+msgid "Pourcent"
+msgstr "Porcentaje"
+
+#: bp-activity-tags.php:155
+msgid "Font color mini: (default: #CCCCCC)"
+msgstr "Color min: (por defecto #CCCCCC)"
+
+#: bp-activity-tags.php:160
+msgid "Font color max: (default: #000000)"
+msgstr "Color max: (por defecto #000000)"
+
+#: bp-activity-tags.php:313
+msgid "posts"
+msgstr "posts"
+
+#: bp-activity-tags.php:402
+msgid "Avatar"
+msgstr "Avatar"
+
+#: bp-activity-tags.php:435
+msgid "There aren't new activity with tag"
+msgstr "No hay nueva actividad con esta etiqueta"
+
+#: bp-activity-tags.php:439
+msgid "Recent activity posts with tag"
+msgstr "Actividad reciente con el tag"
+
+#: bp-activity-tags.php:485
+msgid "Sorry, but you are looking for something that isn't here."
+msgstr "Lo sentimos pero lo que buscas no se encuentra aquí."
+
+#. Plugin Name of the plugin/theme
+msgid "BuddyPress Activity Tags"
+msgstr "BuddyPress Activity Tags"
+
+#. Plugin URI of the plugin/theme
+msgid "http://grial.usal.es/agora/pfcgrial/bp-activity-tags"
+msgstr "http://grial.usal.es/agora/pfcgrial/bp-activity-tags"
+
+#. Description of the plugin/theme
+msgid ""
+"Adds a widget that displays a tag cloud with tags from new blog posts in "
+"BuddyPress Activity tab."
+msgstr ""
+"Widget que muestra una nube de tags con los tags de los nuevos posts "
+"mostrados en la pestaña de Actividad de BuddyPress."
+
+#. Author of the plugin/theme
+msgid "Alicia García Holgado"
+msgstr "Alicia García Holgado"
+
+#. Author URI of the plugin/theme
+msgid "http://grial.usal.es/agora/mambanegra"
+msgstr "http://grial.usal.es/agora/mambanegra"
