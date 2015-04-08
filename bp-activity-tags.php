@@ -3,7 +3,7 @@
  * Plugin Name: BuddyPress Activity Tags
  * Plugin URI: http://grial.usal.es/agora/pfcgrial/bp-activity-tags
  * Description: Adds a widget that displays a tag cloud with tags from new blog posts in BuddyPress Activity tab.
- * Version: 1.1
+ * Version: 1.2
  * Requires at least: BuddyPress 1.2.5
  * Tested up to: BuddyPress 1.9.2 + WordPress 3.8.1
  * Author: Alicia García Holgado

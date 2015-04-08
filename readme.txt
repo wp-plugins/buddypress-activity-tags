@@ -3,7 +3,7 @@ Contributors: aliciagh
 Tags: tag, activity, tags, tagging, buddypress, multisite, widget, multilingual, global, shortcode
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.1
+Stable tag: 1.2
 
 Adds a widget that displays a tag cloud with tags from new blog posts in BuddyPress Activity tab.
 Tested up to BuddyPress 1.9.2
@@ -17,6 +17,11 @@ The widget configuration and tags style is based on [Simple Tags plugin](http://
 **Translations**
 
 The plugin comes with Spanish and English translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the bp-activity-tags.pot file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/).
+Currently in the following languages:
+
+* ItalianDutch (nl_NL) by Niels Boos [Webdiensten ZZP](http://www.webdienstenzzp.nl)
+* English
+* Serbian (sr_RS) by [Webhostinghub.com](http://www.webhostinghub.com)
 
 **Features**
 
@@ -49,6 +54,9 @@ If you have any further questions, please submit them.
 2. Widget.
 
 == Changelog ==
+
+= 1.2 =
+* Added: Serbian language pack
 
 = 1.1 =
 * Added: Italian language pack
