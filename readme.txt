@@ -19,7 +19,7 @@ The widget configuration and tags style is based on [Simple Tags plugin](http://
 The plugin comes with Spanish and English translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the bp-activity-tags.pot file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/).
 Currently in the following languages:
 
-* ItalianDutch (nl_NL) by Niels Boos [Webdiensten ZZP](http://www.webdienstenzzp.nl)
+* Italian
 * English
 * Serbian (sr_RS) by [Webhostinghub.com](http://www.webhostinghub.com)
 
